@@ -13,27 +13,27 @@ app.use(bodyParser.json());
 const dbClient = new MongoClient('mongodb://localhost:27017');
 
 const Producer = kafka.Producer;
+const Consumer = kafka.Consumer;
 const kafkaClient = new kafka.KafkaClient({ kafkaHost: 'localhost:9092' });
 const producer = new Producer(kafkaClient);
 
 
 
-app.post('/create-order', (req, res) => {
-    const { spotId, productName, requiredQuantity } = req.body;
-    const orderRecord = {
-      orderId: `ORD-${new Date().getTime()}`,
-      spotId,
-      productName,
-      requiredQuantity
-    };
-    producer.send([{ topic: 'order-record', messages: JSON.stringify(orderRecord) }], (err, data) => {
-      console.log('Order record sent to Kafka:', data);
-    });
-    res.status(200).send('Order record created');
-  });
 
-  
-const PORT =  3000;
+
+    const containerData = {
+      spotId: 'A1',
+      quantity: Math.floor(Math.random() * 100),
+      unit: 'boxes'
+    };
+    producer.send([{ topic: 'container-data', messages: JSON.stringify(containerData) }], (err, data) => {
+      console.log('Data sent to Kafka:', data);
+    });
+ 
+
+
+const PORT =  3001;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
