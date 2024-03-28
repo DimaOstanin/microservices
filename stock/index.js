@@ -14,15 +14,6 @@ const kafkaClient = new kafka.KafkaClient({ kafkaHost: 'localhost:9092' });
 const producer = new Producer(kafkaClient);
 
 
-app.post('/detect-full', (req, res) => {
-    const { spotId, quantity, unit, orderId } = req.body;
-    if (quantity > 50 && orderId) { // 50% threshold and order exists
-      producer.send([{ topic: 'full-detector', messages: JSON.stringify({ spotId, orderId }) }], (err, data) => {
-        console.log('Full detected and sent to Kafka:', data);
-      });
-    }
-    res.status(200).send('Full detection processed');
-  });
 
 
 

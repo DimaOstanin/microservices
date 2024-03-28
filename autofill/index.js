@@ -19,17 +19,45 @@ const producer = new Producer(kafkaClient);
 
 
 
+class AutoFill {
+  constructor() {
+    this.consumer = null;
+    this.kafkaClient = new kafka.KafkaClient({ kafkaHost: 'localhost:9092' });
+    this.consumer = new kafka.Consumer(this.kafkaClient, [{ topic: 'lack-detector' }]);
+    this.init();
+  }
 
-
-    const containerData = {
-      spotId: 'A1',
-      quantity: Math.floor(Math.random() * 100),
-      unit: 'boxes'
-    };
-    producer.send([{ topic: 'container-data', messages: JSON.stringify(containerData) }], (err, data) => {
-      console.log('Data sent to Kafka:', data);
+  init() {
+    this.consumer.on('message', async (message) => {
+      try {
+        const data = JSON.parse(message.value);
+        console.log(data)
+        // await this.createOrder(data);
+      } catch (error) {
+        console.error('Error processing message:', error);
+      }
     });
- 
+
+    this.consumer.on('error', (error) => {
+      console.error('Error occurred with Kafka consumer:', error);
+    });
+  }
+
+  async createOrder(data) {
+    // В этом методе должна быть логика создания заказа на основе данных, полученных из Kafka
+    console.log('Received message from Kafka:', data);
+    // Здесь примерно должен быть код, который создает заказ на основе данных
+    // Пример:
+    // const order = await Order.create({ spotId: data.spotId, quantity: data.quantity, unit: data.unit });
+    // console.log('Created order:', order);
+  }
+}
+
+// Создаем экземпляр AutoFill
+new AutoFill();
+
+
+    
 
 
 const PORT =  3001;
