@@ -1,18 +1,28 @@
 
-const express = require('express');
+import { express } from 'express';
 const kafka = require('kafka-node');
-const bodyParser = require('body-parser');
+import { json, urlencoded } from 'body-parser';
 
+
+// app.use(json());
+// app.use(urlencoded({ extended: true }));
 
 const app = express();
-app.use(bodyParser.json());
+app.use(express.json());
 
 const PORT =  3002;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-
+mongoose
+  .connect(process.env.MONGO_URL)
+  .then(() => {
+    console.log('Connected to MongoDB!');
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 const Producer = kafka.Producer;
 const kafkaClient = new kafka.KafkaClient({ kafkaHost: 'localhost:9092' });
@@ -32,14 +42,6 @@ app.post('/sensors', (req, res) => {
 });
 
 
-// const containerData = {
-//   spotId: 'A1',
-//   quantity: Math.floor(Math.random() * 100),
-//   unit: 'boxes'
-// };
-// producer.send([{ topic: 'container-data', messages: JSON.stringify(containerData) }], (err, data) => {
-//   console.log('Data sent to Kafka:', data);
-// });
 
 
 app.get('/',(req,res)=>{
