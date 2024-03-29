@@ -1,19 +1,10 @@
 
 import { express } from 'express';
 const kafka = require('kafka-node');
-import { json, urlencoded } from 'body-parser';
-
-
-// app.use(json());
-// app.use(urlencoded({ extended: true }));
 
 const app = express();
 app.use(express.json());
 
-const PORT =  3002;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
 
 mongoose
   .connect(process.env.MONGO_URL)
@@ -42,7 +33,9 @@ app.post('/sensors', (req, res) => {
 });
 
 
-
+app.listen(process.env.PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 app.get('/',(req,res)=>{
     res.send("work")
