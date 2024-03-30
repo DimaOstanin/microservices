@@ -21,7 +21,7 @@ mongoose
   });
 
 setTimeout(constrollers.sendMessageToKafka,500)
-// constrollers.sendMessageToKafka
+
 
 
 
