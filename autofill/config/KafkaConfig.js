@@ -1,4 +1,4 @@
-import { Kafka } from "kafkajs";
+import { Kafka, Partitioners } from "kafkajs";
 
 class KafkaConfig {
   constructor() {
@@ -6,7 +6,9 @@ class KafkaConfig {
       clientId: "Auto-fill",
       brokers: ["localhost:9092"],
     });
-    this.producer = this.kafka.producer();
+    this.producer = this.kafka.producer({
+      createPartitioner: Partitioners.LegacyPartitioner
+    });
     this.consumer = this.kafka.consumer({ groupId: "Microservices" });
   }
 

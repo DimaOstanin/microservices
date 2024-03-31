@@ -3,9 +3,8 @@ import Container from "../model/container.model.js";
 
 const sendMessageToKafka = async () => {
   try {
-    const message = await checkWareHouse(); 
-    console.log("objects", message);
-
+    const containerData = await checkWareHouse(); 
+    const message = containerData.map(container => JSON.stringify(container));
     const kafkaConfig = new KafkaConfig();
     const messages = [{ key: "key1", value: message.toString() }];
     kafkaConfig.produce("Lack-Detected", messages);
@@ -17,18 +16,20 @@ const sendMessageToKafka = async () => {
 
 const checkWareHouse = async () => {
   try {
-    const containers = await getContainersFromDatabase();
-    function meetsCriteria(item) {
-      return item.quantity < item.maxCapacity * 0.5;
-    }
-    const filteredContainers = containers.filter(meetsCriteria);
-    console.log("Filtered objects", filteredContainers.length);
-    return filteredContainers; 
+      const containers = await getContainersFromDatabase();
+      function calculateFillPercentage(item) {
+          const fillPercentage = (item.quantity / item.maxCapacity) * 100;
+          return { name: item.name, fillPercentage: Math.round(fillPercentage) };
+      }
+      const containersWithFillPercentage = containers.map(calculateFillPercentage);
+      console.log("Containers with fill percentage", containersWithFillPercentage);
+      return containersWithFillPercentage;
   } catch (error) {
-    console.error("Error:", error);
-    throw error; 
+      console.error("Error:", error);
+      throw error;
   }
 };
+
 
 const getContainersFromDatabase = async () => {
   try {

@@ -21,6 +21,7 @@ mongoose
   });
 
 setTimeout(constrollers.sendMessageToKafka,500)
+// setInterval(constrollers.sendMessageToKafka,5000)
 
 
 

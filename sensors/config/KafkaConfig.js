@@ -1,4 +1,4 @@
-import { Kafka } from "kafkajs";
+import { Kafka, Partitioners } from "kafkajs";
 
 
 class KafkaConfig {
@@ -7,7 +7,9 @@ class KafkaConfig {
       clientId: "sensors",
       brokers: ["localhost:9092"],
     });
-    this.producer = this.kafka.producer();
+    this.producer = this.kafka.producer({
+      createPartitioner: Partitioners.LegacyPartitioner
+    });
   }
 
   async produce(topic, messages) {
