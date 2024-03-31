@@ -6,9 +6,9 @@ const sendMessageToKafka = async () => {
     const message = await checkWareHouse(); 
     console.log("objects", message);
 
-    // const kafkaConfig = new KafkaConfig();
-    // const messages = [{ key: "key1", value: message }];
-    // kafkaConfig.produce("Lack-Detected", messages);
+    const kafkaConfig = new KafkaConfig();
+    const messages = [{ key: "key1", value: message.toString() }];
+    kafkaConfig.produce("Lack-Detected", messages);
 
   } catch (error) {
     console.log(error);
