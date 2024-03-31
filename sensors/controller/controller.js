@@ -22,7 +22,7 @@ const checkWareHouse = async () => {
       return item.quantity < item.maxCapacity * 0.5;
     }
     const filteredContainers = containers.filter(meetsCriteria);
-    console.log("Filtered objects", filteredContainers);
+    console.log("Filtered objects", filteredContainers.length);
     return filteredContainers; 
   } catch (error) {
     console.error("Error:", error);
