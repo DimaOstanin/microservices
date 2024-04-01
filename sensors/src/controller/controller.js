@@ -1,5 +1,5 @@
 import KafkaConfig from "../config/KafkaConfig.js";
-import Container from "../model/container.model.js";
+import Container from "../src/model/container.model.js";
 
 const sendMessageToKafka = async () => {
   try {
