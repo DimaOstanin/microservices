@@ -5,7 +5,7 @@ class KafkaConfig {
   constructor() {
     this.kafka = new Kafka({
       clientId: "sensors",
-      brokers: ["localhost:9092"],
+      brokers: ['kafka1:29092', 'kafka2:29093'],
     });
     this.producer = this.kafka.producer({
       createPartitioner: Partitioners.LegacyPartitioner

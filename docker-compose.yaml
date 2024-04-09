@@ -55,3 +55,10 @@ services:
 
 
       # docker-compose -f docker-compose-kafka-cluster.yaml up -d
+  sensors:
+    build: ./sensors
+      
+    ports:
+      - 3001:3001
+    environment:
+      - KAFKA_BROKERS=kafka1:29092,kafka2:29093 
