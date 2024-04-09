@@ -1,12 +1,12 @@
 import KafkaConfig from "../config/KafkaConfig.js";
-import Container from "../src/model/container.model.js";
+import Container from "../model/ContainerModel.js";
 
 const sendMessageToKafka = async () => {
   try {
     const containerData = await checkWareHouse(); 
     const message = containerData.map(container => JSON.stringify(container));
     const kafkaConfig = new KafkaConfig();
-    const messages = [{ key: "key1", value: message.toString() }];
+    const messages = [{ key: "key1", value: message.toString()}];
     kafkaConfig.produce("Lack-Detected", messages);
 
   } catch (error) {
@@ -42,6 +42,6 @@ const getContainersFromDatabase = async () => {
   }
 };
 
-const controllers = { sendMessageToKafka };
+const SensorController = { sendMessageToKafka };
 
-export default controllers;
+export default SensorController;

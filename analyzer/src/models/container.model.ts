@@ -19,6 +19,10 @@ const containerSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    threshold : {
+      type: Number,
+      required: true,
+    },
     
     
   },
